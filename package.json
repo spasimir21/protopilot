@@ -1,0 +1,33 @@
+{
+  "name": "protopilot",
+  "version": "1.0.0",
+  "description": "",
+  "source": "index.html",
+  "scripts": {
+    "start": "electron main.js",
+    "serve": "parcel",
+    "build": "parcel build"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.8.1",
+    "@codemirror/lang-css": "^6.2.0",
+    "@codemirror/lang-javascript": "^6.1.9",
+    "@types/node": "^20.4.1",
+    "@uixjs/core": "file:lib/core",
+    "@uixjs/reactivity": "file:lib/reactivity",
+    "codemirror": "^6.0.1",
+    "node-file-dialog": "^1.0.3"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.9.3",
+    "@uixjs/parcel-transformer-uix-stylesheet": "^0.0.7",
+    "@uixjs/parcel-transformer-uix-view": "^0.0.7",
+    "buffer": "^6.0.3",
+    "electron": "^25.2.0",
+    "parcel": "^2.9.3",
+    "process": "^0.11.10",
+    "typescript": "^5.1.6"
+  },
+  "author": "Spasimir Pavlov",
+  "license": "MIT"
+}

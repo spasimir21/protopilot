@@ -1,0 +1,47 @@
+[asset-editor] {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  gap: 30px;
+}
+
+p {
+  margin: 0px;
+  font-size: 18px;
+}
+
+.asset-name {
+  font-size: 20px;
+}
+
+.asset-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+[type='file'] {
+  color: transparent;
+  width: 100px;
+}
+
+[type='file']::file-selector-button {
+  width: 100px;
+  margin-inline-end: 0;
+  padding: 0.6rem;
+  background-color: lightgray;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.image {
+  width: 400px;
+  aspect-ratio: 1;
+  border: 3px dashed lightgray;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}

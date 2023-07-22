@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="./pageTab.style.scss" scoped />
+
+<modal ref="$.modalComponent">
+  <content slot="addElement">
+    <add-element-modal />
+  </content>
+</modal>
+
+<if _="!$.loaded">
+  <div class="loading">
+    <p>Loading...</p>
+  </div>
+</if>
+<else>
+  <explorer-panel />
+
+  <div class="preview-container">
+    <div
+      class="play-button"
+      #backgroundColor="$.state.runningContext != null ? 'lime' : 'tomato'"
+      @click="$.runButtonPressed()"
+    ></div>
+
+    <preview />
+  </div>
+
+  <properties-panel />
+</else>

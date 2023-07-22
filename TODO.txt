@@ -1,0 +1,11 @@
+Add controller slots
+Add afterViewInit
+Switch Exports and Shared places in Controller Type
+Suppress errors
+Skip if update
+improve child view
+Fix for each keyed
+FIX EACH AND FRAGMENT
+Fix Shared
+With Statement
+Cleanup events in instructions

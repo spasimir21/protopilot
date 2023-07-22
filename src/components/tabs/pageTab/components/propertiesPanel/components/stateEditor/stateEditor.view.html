@@ -1,0 +1,7 @@
+<link rel="stylesheet" href="./stateEditor.style.scss" scoped />
+
+<p class="state-name">${ $.item.name }</p>
+
+<type-input prop:name="'Type'" prop:nameFontSize="20" shared:type="$.item.dataType" />
+
+<editor-input prop:type="$.item.dataType" prop:name="'Value'" prop:nameFontSize="20" shared:value="$.item.value" />

@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="./explorerItem.style.scss" scoped />
+
+<div
+  class="header"
+  .current="$.pageTabState.currentItem === $.item"
+  @click:stopPropagation="$.select()"
+  @mouseenter="$.pageTabState.hoveredItem = $.item"
+  @mouseleave="$.pageTabState.hoveredItem = null"
+>
+  <div class="pack">
+    <div class="element-icon"></div>
+    <input type="text" :value!="$.item.name" #width="`${$.itemNameWidth}px`" bool-attr:disabled="!$.canEditName" />
+  </div>
+
+  <div class="pack">
+    <if _="$.parent != null">
+      <div class="button hidden-button" @click:stopPropagation="$.removeSelf()" style="background-color: tomato"></div>
+    </if>
+    <if _="$.canHaveChildren">
+      <div class="button hidden-button" @click:stopPropagation="$.addChild()" style="background-color: lime"></div>
+    </if>
+    <if _="$.item.children != null && $.item.children.length > 0">
+      <div
+        class="button"
+        @click:stopPropagation="$.areChildrenCollapsed = !$.areChildrenCollapsed"
+        #backgroundColor="$.areChildrenCollapsed ? 'gray' : 'lightgray'"
+      ></div>
+    </if>
+  </div>
+</div>
+
+<if _="!$.areChildrenCollapsed && $.item.children != null && $.item.children.length > 0">
+  <div class="children">
+    <each _="child : $.item.children" key="child.id">
+      <explorer-item
+        prop:item="$.child"
+        prop:parent="$.item"
+        prop:onAddChild="$.props.onAddChild"
+        prop:onRemove="$.props.onRemove"
+        prop:canBeSelected="$.props.canBeSelected"
+        prop:canEditName="$.props.canEditName"
+        prop:canHaveChildren="$.props.canHaveChildren"
+      />
+    </each>
+  </div>
+</if>

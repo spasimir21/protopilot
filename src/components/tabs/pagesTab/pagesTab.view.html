@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="./pagesTab.style.scss" scoped />
+
+<modal ref="$.modalComponent">
+  <content slot="modal">
+    <add-page-modal />
+  </content>
+</modal>
+
+<if _="!$.pageManager.loaded">
+  <p class="loading">Loading...</p>
+</if>
+<else>
+  <div class="add-page-button" @click="$.openModal()">Add a Page</div>
+
+  <if _="$.pageManager.pages.length > 0">
+    <div class="pages">
+      <each _="page : $.pageManager.pages" key="page.id">
+        <page-info prop:pageId="$.page.id" prop:openEditModal="$.openModal" />
+      </each>
+    </div>
+  </if>
+  <else>
+    <p class="no-pages-text">No pages yet.</p>
+  </else>
+</else>

@@ -1,0 +1,10 @@
+<insert> import { ElementTypeInfo } from '../../Element'; </insert>
+
+<link rel="stylesheet" href="./addElementModal.style.scss" scoped />
+
+<each _="elementType : range(Object.keys(ElementTypeInfo).length - 1)">
+  <div class="element-type" @click="$.addElement($.elementType + 1)">
+    <div class="icon"></div>
+    <p>${ ElementTypeInfo[$.elementType + 1].name }</p>
+  </div>
+</each>

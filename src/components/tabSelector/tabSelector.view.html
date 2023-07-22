@@ -1,0 +1,27 @@
+<!-- prettier-ignore -->
+<insert>
+  import { element } from '../../modifiers/element';
+  import closeImage from './assets/close.png';
+  import saveImage from './assets/save.png';
+</insert>
+
+<link rel="stylesheet" href="./tabSelector.style.scss" scoped />
+
+<div class="tab-headers">
+  <each _="tab : $.tabManager.tabs" key="tab.id">
+    <div .current="$.tabManager.currentTab === $.tab" class="tab-header" @click="$.tabManager.currentTab = $.tab">
+      <div class="close" .enabled="$.tab.canClose" @click:stopPropagation="$.closeTab($.tab)">
+        <img attr:src="closeImage" alt="close" />
+      </div>
+      <!-- <p #fontStyle="$.tab.modified ? 'italic' : null">${ $.tab.title }${ $.tab.modified ? '*' : '' }</p> -->
+      <p>${ $.tab.title }</p>
+      <div class="save" .enabled="$.tab.modified" @click:stopPropagation="$.saveTab($.tab)">
+        <img attr:src="saveImage" alt="save" />
+      </div>
+    </div>
+  </each>
+</div>
+
+<div class="tab-container">
+  <div *element="() => $.tabManager.currentTab?.component ?? document.createComment('')"></div>
+</div>

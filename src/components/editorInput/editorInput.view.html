@@ -1,0 +1,82 @@
+<!-- prettier-ignore -->
+<insert>
+  import { toCamelCase } from '../../helpers/naming';
+  import { DataTypeEnum } from './DataType';
+</insert>
+
+<link rel="stylesheet" href="./editorInput.style.scss" scoped />
+
+<div class="header">
+  <if _="$.props.name != null">
+    <p class="input-name" #fontSize="$.nameFontSize">${ $.props.name }</p>
+  </if>
+  <else>
+    <input class="name-input" type="text" #fontSize="$.nameFontSize" :value!="$.shared.name" />
+  </else>
+
+  <if _="$.type?.type === DataTypeEnum.String">
+    <input class="value-input" type="text" :value!="$.shared.value" />
+  </if>
+  <else-if _="$.type?.type === DataTypeEnum.Number">
+    <input class="value-input" type="number" :valueAsNumber!="$.shared.value" />
+  </else-if>
+  <else-if _="$.type?.type === DataTypeEnum.Boolean">
+    <input class="value-input" type="checkbox" :checked!="$.shared.value" />
+  </else-if>
+  <else-if _="$.type?.type === DataTypeEnum.Enum">
+    <select ref="$.selectInput" :value!="$.shared.value"></select>
+  </else-if>
+  <else-if _="$.type?.type === DataTypeEnum.Dictionary">
+    <div class="button" style="background-color: lime" @click="$.addKey()"></div>
+  </else-if>
+  <else-if _="$.type?.type === DataTypeEnum.Array">
+    <div class="button" style="background-color: lime" @click="$.addValue()"></div>
+  </else-if>
+</div>
+
+<if _="$.type?.type === DataTypeEnum.Object && $.type?.types.length !== 0">
+  <div class="children">
+    <each _="valueType : $.type?.types ?? []">
+      <if _="$.valueType[1]?.type === DataTypeEnum._Type" keepalive="false">
+        <type-input prop:name="$.valueType[0]" shared:type="$.shared.value[toCamelCase($.valueType[0])]" />
+      </if>
+      <else>
+        <editor-input
+          prop:type="$.valueType[1]"
+          prop:name="$.valueType[0]"
+          shared:value="$.shared.value[toCamelCase($.valueType[0])]"
+        />
+      </else>
+    </each>
+  </div>
+</if>
+<else-if _="$.type?.type === DataTypeEnum.Dictionary && $.shared.value?.length !== 0">
+  <div class="children">
+    <each _="keyAndValue : $.shared.value ?? []">
+      <div class="key">
+        <div class="button" style="background-color: tomato" @click="$.removeIndex($.keyAndValueIndex)"></div>
+        <if _="$.type?.valueType?.type === DataTypeEnum._Type" keepalive="false">
+          <type-input shared:name="$.keyAndValue[0]" shared:type="$.keyAndValue[1]" />
+        </if>
+        <else>
+          <editor-input prop:type="$.type?.valueType" shared:name="$.keyAndValue[0]" shared:value="$.keyAndValue[1]" />
+        </else>
+      </div>
+    </each>
+  </div>
+</else-if>
+<else-if _="$.type?.type === DataTypeEnum.Array && $.shared.value?.length !== 0">
+  <div class="children">
+    <each _="value : $.shared.value ?? []">
+      <div class="key">
+        <div class="button" style="background-color: tomato" @click="$.removeIndex($.valueIndex)"></div>
+        <if _="$.type?.valueType?.type === DataTypeEnum._Type" keepalive="false">
+          <type-input prop:name="''" shared:type="$.shared.value[$.valueIndex]" />
+        </if>
+        <else>
+          <editor-input prop:type="$.type?.valueType" prop:name="''" shared:value="$.shared.value[$.valueIndex]" />
+        </else>
+      </div>
+    </each>
+  </div>
+</else-if>

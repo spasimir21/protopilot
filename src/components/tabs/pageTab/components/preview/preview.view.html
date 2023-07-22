@@ -1,0 +1,16 @@
+<!-- prettier-ignore -->
+<insert>
+  import { view as elementView } from './element.view.html';
+  import { ItemType } from '../../Item';
+</insert>
+
+<link rel="stylesheet" href="./preview.style.scss" scoped />
+
+<if _="$.box.hasElement">
+  <div
+    class="box"
+    attr:style="`top: ${$.box.y}px; left: ${$.box.x}px; width: ${$.box.width}px; height: ${$.box.height}px;`"
+  ></div>
+</if>
+
+<view view="elementView" data="({ element: $.pageData.pageElement })" />

@@ -1,0 +1,38 @@
+<!-- prettier-ignore -->
+<insert>
+  import { DataTypeEnum } from '../../../../../../editorInput/DataType';
+  import { ElementTypeInfo } from '../../../../Element';
+</insert>
+
+<link rel="stylesheet" href="./elementEditor.style.scss" scoped />
+
+<p class="element-name">${ $.item.name }</p>
+
+<if _="$.item.children == null || $.item.children.length == 0">
+  <editor-input prop:type="({ type: DataTypeEnum.String })" prop:name="'Text'" shared:value="$.item.text" />
+</if>
+
+<if _="ElementTypeInfo[$.item.elementType].propertiesType != null">
+  <editor-input
+    prop:type="ElementTypeInfo[$.item.elementType].propertiesType"
+    prop:name="'Properties'"
+    prop:nameFontSize="20"
+    shared:value="$.item.properties"
+  />
+</if>
+
+<editor-input
+  prop:type="$.ModifiersType"
+  prop:name="'Modifiers'"
+  prop:nameFontSize="20"
+  shared:value="$.item.modifiers"
+/>
+
+<editor-input
+  prop:type="$.StyleReferencesType"
+  prop:name="'Style References'"
+  prop:nameFontSize="20"
+  shared:value="$.item.styleReferences"
+/>
+
+<style-editor prop:item="$.item" />

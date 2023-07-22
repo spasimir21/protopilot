@@ -1,0 +1,80 @@
+[tab-selector] {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+
+.tab-headers {
+  user-select: none;
+  display: flex;
+  flex-flow: row nowrap;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  overflow: auto;
+}
+
+.tab-header {
+  height: 30px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 0px 10px;
+  border-right: 1px solid gray;
+  cursor: pointer;
+}
+
+.tab-header.current {
+  background-color: rgb(220, 220, 220);
+}
+
+.tab-header:hover {
+  background-color: lightgray;
+}
+
+.tab-header p {
+  margin: 0px;
+  font-size: 18px;
+}
+
+.tab-header .close {
+  width: 14px;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.tab-header .save {
+  width: 16px;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.tab-header .close.enabled:hover,
+.tab-header .save.enabled:hover {
+  background-color: darkgray;
+}
+
+.tab-header .close img,
+.tab-header .save img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.tab-header:hover .close.enabled img,
+.tab-header.current .close.enabled img,
+.tab-header:hover .save.enabled img,
+.tab-header.current .save.enabled img {
+  opacity: 1;
+}
+
+.tab-container {
+  flex-grow: 1;
+  overflow: hidden;
+}

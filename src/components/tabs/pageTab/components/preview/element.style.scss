@@ -1,0 +1,9 @@
+.page {
+  position: relative;
+  width: var(--page-width);
+  height: var(--page-height);
+  background-image: var(--page-background);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}

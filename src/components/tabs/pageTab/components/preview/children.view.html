@@ -1,0 +1,14 @@
+<!-- prettier-ignore -->
+<insert>
+  import { previewText } from '../../../../../modifiers/previewText';
+  import { view as elementView } from './element.view.html';
+</insert>
+
+<if _="$.element.children == null || $.element.children.length == 0" keepalive="false">
+  <div *previewText="$.element"></div>
+</if>
+<else>
+  <each _="child : $.element.children" key="child.id">
+    <view view="elementView" data="({ element: $.child })" />
+  </each>
+</else>

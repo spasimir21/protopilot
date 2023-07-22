@@ -1,0 +1,53 @@
+[style-editor] {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+}
+
+p {
+  margin: 0px;
+}
+
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header p {
+  font-size: 20px;
+}
+
+.button {
+  width: 20px;
+  height: 20px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.properties {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+  padding-left: 20px;
+}
+
+.property {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+[editor-input] {
+  flex-grow: 1;
+}
+
+.pack {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 10px;
+}

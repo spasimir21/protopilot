@@ -1,0 +1,24 @@
+{
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "meta.tag.other.unrecognized.html.derivative entity.name.tag.html",
+        "settings": {
+          "foreground": "#FFCB6B"
+        }
+      },
+      {
+        "scope": "meta.tag.custom.start.html entity.name.tag.html",
+        "settings": {
+          "foreground": "#FFCB6B"
+        }
+      },
+      {
+        "scope": "meta.tag.custom.end.html entity.name.tag.html",
+        "settings": {
+          "foreground": "#FFCB6B"
+        }
+      }
+    ]
+  }
+}

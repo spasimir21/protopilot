@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="./pageInfo.style.scss" scoped />
+
+<component @click="$.openTab()" />
+
+<p class="name">${ $.page.name }</p>
+
+<p class="route">${ $.page.route }</p>
+
+<div class="buttons">
+  <div class="button" @click:stopPropagation="$.props.openEditModal($.props.pageId)">Edit</div>
+  <div class="button" @click:stopPropagation="$.delete()">Delete</div>
+</div>

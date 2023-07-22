@@ -1,0 +1,33 @@
+[add-element-modal] {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+}
+
+.element-type {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 10px;
+  background-color: lightgray;
+  padding: 5px;
+  border-radius: 10px;
+  width: 300px;
+  cursor: pointer;
+}
+
+.element-type:hover {
+  background-color: rgb(220, 220, 220);
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  background-color: gray;
+  border-radius: 10px;
+}
+
+p {
+  margin: 0px;
+  font-size: 20px;
+}

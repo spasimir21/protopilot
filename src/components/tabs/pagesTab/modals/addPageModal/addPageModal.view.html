@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="./addPageModal.style.scss" scoped />
+
+<p class="header-text">${ $.data.isEditing ? 'Edit' : 'Add' } Page</p>
+
+<div class="form-fields">
+  <div class="form-field">
+    <p>Name:</p>
+    <input type="text" :value!="$.data.pageName" />
+  </div>
+  <div class="form-field">
+    <p>Route:</p>
+    <input type="text" :value!="$.data.pageRoute" />
+  </div>
+</div>
+
+<div class="button" @click="$.submit()">${ $.data.isEditing ? 'Save' : 'Add' }</div>

@@ -1,0 +1,57 @@
+<!-- prettier-ignore -->
+<insert>
+  import { previewElement } from '../../../../../modifiers/previewElement';
+  import { createRunningContextRef } from './runningContextRef';
+  import { view as childrenView } from './children.view.html';
+  import { ElementType } from '../../Item';
+  import { runGetter } from './runCode';
+</insert>
+
+<link rel="stylesheet" href="./element.style.scss" scoped />
+
+<if _="$.element.elementType === ElementType.Page" keepalive="false">
+  <div
+    attr:style="`--page-width: ${ $.element.properties.width }px; --page-height: ${ $.element.properties.height }px; --page-background: url('${ $.assetProvider.getAsset($.element.properties.background) }')`"
+  >
+    <div class="page" *previewElement="$.element">
+      <view view="childrenView" />
+    </div>
+  </div>
+</if>
+<else-if _="$.element.elementType === ElementType.Group">
+  <div *previewElement="$.element"><view view="childrenView" /></div>
+</else-if>
+<else-if _="$.element.elementType === ElementType.Link">
+  <a attr:href="$.element.properties.location" *previewElement="$.element"><view view="childrenView" /></a>
+</else-if>
+<else-if _="$.element.elementType === ElementType.Paragraph">
+  <p *previewElement="$.element"><view view="childrenView" /></p>
+</else-if>
+<else-if _="$.element.elementType === ElementType.Image">
+  <img attr:src="$.assetProvider.getAsset($.element.properties.asset)" *previewElement="$.element" />
+</else-if>
+<else-if _="$.element.elementType === ElementType.Input">
+  <input
+    attr:type="$.element.properties.type"
+    attr:placeholder="$.element.properties.placeholder"
+    *previewElement="$.element"
+  />
+</else-if>
+<else-if _="$.element.elementType === ElementType.Button">
+  <button *previewElement="$.element"><view view="childrenView" /></button>
+</else-if>
+<else-if _="$.element.elementType === ElementType.Each">
+  <if _="$.runningContext.$ == null" keepalive="false">
+    <each _="_ : range($.element.properties.previewCount)">
+      <view view="childrenView" />
+    </each>
+  </if>
+  <else>
+    <each _="_item : runGetter($.element.properties.array, [], $.runningContext.$)" key="_item">
+      <view
+        view="childrenView"
+        data="({ runningContext: createRunningContextRef($, { [$.element.properties.item]: $._item }) })"
+      />
+    </each>
+  </else>
+</else-if>

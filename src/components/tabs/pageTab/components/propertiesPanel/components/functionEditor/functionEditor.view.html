@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="./functionEditor.style.scss" scoped />
+
+<p class="function-name">${ $.item.name }</p>
+
+<editor-input
+  prop:type="$.ArgumentNamesType"
+  prop:name="'Arguments'"
+  prop:nameFontSize="20"
+  shared:value="$.item.argumentNames"
+/>
+
+<div ref="$.editorContainer"></div>

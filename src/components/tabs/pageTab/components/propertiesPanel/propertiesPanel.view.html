@@ -1,0 +1,28 @@
+<insert> import { ItemType } from '../../Item'; </insert>
+
+<link rel="stylesheet" href="./propertiesPanel.style.scss" scoped />
+
+<!-- <with _="item : $.pageTabState.currentItem" key="item?.id"> </with> -->
+<each _="item : [$.pageTabState.currentItem]" key="item?.id">
+  <if _="$.item == null">
+    <p>Nothing selected.</p>
+  </if>
+  <else-if _="$.item.type == ItemType.Element">
+    <element-editor prop:item="$.item" />
+  </else-if>
+  <else-if _="$.item.type == ItemType.State">
+    <state-editor prop:item="$.item" />
+  </else-if>
+  <else-if _="$.item.type == ItemType.Type">
+    <type-editor prop:item="$.item" />
+  </else-if>
+  <else-if _="$.item.type == ItemType.Asset">
+    <asset-editor prop:item="$.item" />
+  </else-if>
+  <else-if _="$.item.type == ItemType.Style">
+    <style-editor-panel prop:item="$.item" />
+  </else-if>
+  <else-if _="$.item.type == ItemType.Function">
+    <function-editor prop:item="$.item" />
+  </else-if>
+</each>

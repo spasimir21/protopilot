@@ -1,0 +1,15 @@
+[explorer-panel] {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 5px;
+  width: 500px;
+  border-right: 1px solid lightgray;
+  box-shadow: 0px 0px 3px 1px lightgray;
+  padding: 10px 15px;
+  overflow: auto;
+}
+
+p {
+  margin: 0px;
+  font-size: 20px;
+}

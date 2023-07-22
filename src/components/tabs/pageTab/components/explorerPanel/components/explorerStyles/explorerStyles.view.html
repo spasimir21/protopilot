@@ -1,0 +1,9 @@
+<insert> import { ItemType } from '../../../../Item'; </insert>
+
+<explorer-item
+  prop:item="$.pageData.styles"
+  prop:onAddChild="$.addChild"
+  prop:canBeSelected="(_, parent) => parent != null"
+  prop:canEditName="(_, parent) => parent != null"
+  prop:canHaveChildren="(_, parent) => parent == null"
+/>

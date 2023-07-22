@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="./modal.style.scss" scoped />
+
+<component #display="$.shared.isShown ? null : 'none'" />
+
+<div class="background" @click="$.shared.isShown = false"></div>
+
+<div class="modal">
+  <slot :name="$.modalId" />
+</div>

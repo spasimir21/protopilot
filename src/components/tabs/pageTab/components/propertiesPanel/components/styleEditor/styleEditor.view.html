@@ -1,0 +1,31 @@
+<insert> import { DataTypeEnum } from '../../../../../../editorInput/DataType'; </insert>
+
+<link rel="stylesheet" href="./styleEditor.style.scss" scoped />
+
+<div class="header">
+  <p>Style</p>
+  <div class="pack">
+    <div class="button" style="background-color: black" @click="$.switchEditorType()"></div>
+    <if _="!$.pageTabState.usingCodeForStyles">
+      <div class="button" style="background-color: lime" @click="$.addStyleProperty()"></div>
+    </if>
+  </div>
+</div>
+
+<if _="$.pageTabState.usingCodeForStyles">
+  <div ref="$.editorContainer"></div>
+</if>
+<else>
+  <div class="properties">
+    <each _="property : $.item?.style ?? []">
+      <div class="property">
+        <div class="button" style="background-color: tomato" @click="$.removeStyleProperty($.propertyIndex)"></div>
+        <editor-input
+          prop:type="({ type: DataTypeEnum.String })"
+          shared:name="$.property[0]"
+          shared:value="$.property[1]"
+        />
+      </div>
+    </each>
+  </div>
+</else>

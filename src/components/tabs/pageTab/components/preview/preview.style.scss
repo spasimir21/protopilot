@@ -1,0 +1,15 @@
+[preview] {
+  display: block;
+  position: relative;
+  box-shadow: 0px 0px 3px 3px lightgray;
+  border-radius: 10px;
+}
+
+.box {
+  position: absolute;
+  box-sizing: content-box;
+  border: 3px dashed magenta;
+  z-index: 100;
+  background-color: transparent;
+  pointer-events: none;
+}

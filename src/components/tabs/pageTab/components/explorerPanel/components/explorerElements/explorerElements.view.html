@@ -1,0 +1,7 @@
+<insert> import { ItemType } from '../../../../Item'; </insert>
+
+<explorer-item
+  prop:item="$.pageData.pageElement"
+  prop:onAddChild="$.addChild"
+  prop:canEditName="item => item.elementType != 0"
+/>

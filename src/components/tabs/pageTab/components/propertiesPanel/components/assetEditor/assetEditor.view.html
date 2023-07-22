@@ -1,0 +1,8 @@
+<link rel="stylesheet" href="./assetEditor.style.scss" scoped />
+
+<p class="type-name">${ $.item.name }</p>
+
+<div class="asset-container">
+  <div class="image" #backgroundImage="`url('${$.item.url}')`"></div>
+  <input type="file" accept="image/*" @change="$.onFile(e)" />
+</div>

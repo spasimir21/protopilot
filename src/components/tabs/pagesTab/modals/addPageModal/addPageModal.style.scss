@@ -1,0 +1,54 @@
+[add-page-modal] {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 30px;
+}
+
+p {
+  margin: 0px;
+}
+
+.header-text {
+  margin: 0px;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.form-fields {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+}
+
+.form-field {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-field p {
+  font-size: 18px;
+}
+
+.form-field input {
+  height: 26px;
+  font-size: 18px;
+  padding: 6px 6px;
+  border-radius: 6px;
+  border: 1px solid gray;
+  outline: none;
+}
+
+.button {
+  font-size: 18px;
+  width: fit-content;
+  padding: 5px 10px;
+  background-color: lightgray;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  filter: brightness(0.9);
+}
