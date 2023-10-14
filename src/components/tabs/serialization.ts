@@ -165,6 +165,7 @@ function serializeElement(element: ElementItem): any {
 }
 
 function deserializeElement(element: any): ElementItem {
+  if (element == null) return null as any;
   return {
     type: ItemType.Element,
     id: element[0],
@@ -187,7 +188,7 @@ function serializePageData(data: PageData) {
     (data.types.children ?? []).map(serializeType as any),
     (data.functions.children ?? []).map(serializeFunction as any),
     (data.states.children ?? []).map(serializeState as any),
-    serializeElement(data.pageElement)
+    data.pageElement ? serializeElement(data.pageElement) : null
   ];
 }
 

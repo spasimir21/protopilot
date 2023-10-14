@@ -5,6 +5,7 @@ interface PageTabState {
   usingCodeForStyles: boolean;
   currentItem: Item | null;
   hoveredItem: Item | null;
+  isGlobalPage: boolean;
   runningContext: any;
 }
 

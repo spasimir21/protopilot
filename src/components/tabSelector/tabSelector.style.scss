@@ -75,6 +75,7 @@
 }
 
 .tab-container {
-  flex-grow: 1;
+  // flex-grow: 1;
+  height: calc(100vh - 30px);
   overflow: hidden;
 }

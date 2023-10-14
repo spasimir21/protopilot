@@ -1,12 +1,18 @@
 import { Tab, TabManager, provideTabManager } from '../../manager/TabManager';
+import { Controller, Provide, createContextValue } from '@uixjs/core';
+import { Dependency, reactive } from '@uixjs/reactivity';
 import defineComponent from './tabSelector.view.html';
-import { Controller, Provide } from '@uixjs/core';
-import { Dependency } from '@uixjs/reactivity';
+import { PageData, getDefaultPageData } from '../tabs/pageTab/PageData';
 
+const [provideGlobalPageData, getGlobalPageData] = createContextValue<PageData>('globalPageData');
+
+@Provide(provideGlobalPageData, $ => $.globalPageData)
 @Provide(provideTabManager, $ => $.tabManager)
 class TabSelectorController extends Controller {
   @Dependency<TabSelectorController>($ => new TabManager($.context, $.component.registry))
   tabManager: TabManager;
+
+  globalPageData: PageData = reactive(getDefaultPageData(null));
 
   postInit() {
     this.tabManager.currentTab = this.tabManager.openTab({
@@ -15,6 +21,14 @@ class TabSelectorController extends Controller {
       canClose: false,
       data: null,
       component: { name: 'pages-tab' }
+    });
+
+    this.tabManager.openTab({
+      title: 'Global',
+      modified: false,
+      canClose: false,
+      data: '_global',
+      component: { name: 'page-tab' }
     });
 
     // this.tabManager.currentTab = this.tabManager.openTab({
@@ -49,4 +63,4 @@ const tabSelectorComponent = defineComponent({
 });
 
 export default tabSelectorComponent;
-export { tabSelectorComponent };
+export { tabSelectorComponent, getGlobalPageData };

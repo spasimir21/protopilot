@@ -43,6 +43,8 @@ class TabManager {
 
     this.tabs.push(tab);
 
+    component.allowInitialization();
+
     return tab;
   }
 

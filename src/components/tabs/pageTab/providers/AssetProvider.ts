@@ -1,3 +1,4 @@
+import { getGlobalPageData } from '../../../tabSelector/tabSelector.component';
 import { DataTypeEnum, EnumType } from '../../../editorInput/DataType';
 import { Computed, Reactive } from '@uixjs/reactivity';
 import { createContextValue } from '@uixjs/core';
@@ -23,17 +24,27 @@ function loadAsset(path: string, asset: AssetItem) {
 
 @Reactive
 class AssetProvider {
-  constructor(private readonly pageData: PageData) {}
+  private readonly globalPageData: PageData;
+
+  constructor(private readonly pageData: PageData, context: any) {
+    this.globalPageData = getGlobalPageData(context);
+  }
 
   @Computed
   get assetNames() {
-    if (this.pageData.assets.children == null) return [];
-    return (this.pageData.assets.children as AssetItem[]).map(asset => asset.name);
+    const globalAssetNames = (this.globalPageData.assets.children ?? ([] as AssetItem[])).map(f => f.name);
+    if (this.globalPageData === this.pageData) return globalAssetNames;
+
+    const pageAssets = (this.pageData.assets.children ?? ([] as AssetItem[])).map(f => f.name);
+    return [...pageAssets, ...globalAssetNames];
   }
 
   getAsset(name: string) {
     if (this.pageData.assets.children == null) return null;
-    return (this.pageData.assets.children as AssetItem[]).find(asset => asset.name === name)?.url;
+    return (
+      (this.pageData.assets.children as AssetItem[]).find(asset => asset.name === name)?.url ??
+      (this.globalPageData.assets.children as AssetItem[]).find(asset => asset.name === name)?.url
+    );
   }
 
   cleanup() {

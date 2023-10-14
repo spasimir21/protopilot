@@ -3,13 +3,14 @@ import modalComponent, { ModalController, provideModal } from '../../modal/modal
 import addElementModalComponent from './modals/addElementModal/addElementModal.component';
 import { FunctionProvider, provideFunctionProvider } from './providers/FunctionProvider';
 import explorerPanelComponent from './components/explorerPanel/explorerPanel.component';
+import { Controller, Inject, Provide, Shared, UixComponent, scope } from '@uixjs/core';
 import { Page, PageManager, getPageManager } from '../../../manager/PageManager';
 import { AssetProvider, provideAssetProvider } from './providers/AssetProvider';
 import { StyleProvider, provideStyleProvider } from './providers/StyleProvider';
 import { TypeProvider, provideTypeProvider } from './providers/TypeProvider';
+import { getGlobalPageData } from '../../tabSelector/tabSelector.component';
 import { PageData, getDefaultPageData, providePageData } from './PageData';
 import { deserializePageData, serializePageData } from '../serialization';
-import { Controller, Inject, Provide, UixComponent } from '@uixjs/core';
 import previewComponent from './components/preview/preview.component';
 import { $OLD_STATE, createRunningContext } from '../runningContext';
 import { PageTabState, providePageTabState } from './PageTabState';
@@ -38,18 +39,24 @@ class PageTabController extends Controller {
   loaded: boolean = false;
 
   @State
-  state: PageTabState = { usingCodeForStyles: false, currentItem: null, hoveredItem: null, runningContext: null };
+  state: PageTabState = {
+    usingCodeForStyles: false,
+    currentItem: null,
+    hoveredItem: null,
+    runningContext: null,
+    isGlobalPage: true
+  };
 
-  @Dependency<PageTabController>($ => new TypeProvider($.pageData))
+  @Dependency<PageTabController>($ => new TypeProvider($.pageData, $.context))
   typeProvider: TypeProvider;
 
-  @Dependency<PageTabController>($ => new AssetProvider($.pageData))
+  @Dependency<PageTabController>($ => new AssetProvider($.pageData, $.context))
   assetProvider: AssetProvider;
 
-  @Dependency<PageTabController>($ => new StyleProvider($.pageData))
+  @Dependency<PageTabController>($ => new StyleProvider($.pageData, $.context))
   styleProvider: StyleProvider;
 
-  @Dependency<PageTabController>($ => new FunctionProvider($.pageData))
+  @Dependency<PageTabController>($ => new FunctionProvider($.pageData, $.context))
   functionProvider: FunctionProvider;
 
   page: Page;
@@ -60,11 +67,22 @@ class PageTabController extends Controller {
   @Inject(getPageManager)
   pageManager: PageManager;
 
+  @Inject(getGlobalPageData)
+  globalPageData: PageData;
+
+  @Shared
+  shouldStart: boolean;
+
+  @Shared
+  shouldStop: boolean;
+
   init() {
-    this.pageData = getDefaultPageData(this.context);
+    this.state.isGlobalPage = this.tab.data === '_global';
+
+    this.pageData = this.state.isGlobalPage ? getGlobalPageData(this.context) : getDefaultPageData(this.context);
 
     this.page = this.pageManager.getPage(this.tab.data) as Page;
-    this.pageData.pageElement.name = `${this.page.name} Page`;
+    if (!this.state.isGlobalPage) this.pageData.pageElement.name = `${this.page.name} Page`;
 
     this.tab.modified = true;
 
@@ -81,13 +99,13 @@ class PageTabController extends Controller {
   }
 
   save() {
-    fs.writeFile(`./project/pages/${this.page.id}.json`, JSON.stringify(serializePageData(this.pageData)), () => {});
+    fs.writeFile(`./project/pages/${this.tab.data}.json`, JSON.stringify(serializePageData(this.pageData)), () => {});
 
     // this.tab.modified = false;
   }
 
   load() {
-    fs.readFile(`./project/pages/${this.page.id}.json`, (err, data) => {
+    fs.readFile(`./project/pages/${this.tab.data}.json`, (err, data) => {
       this.loaded = true;
 
       if (err != null) return;
@@ -106,7 +124,22 @@ class PageTabController extends Controller {
   }
 
   @Effect
+  startIfNeeded() {
+    if (!this.shouldStart || !this.loaded) return;
+    if (this.state.runningContext == null) this.runButtonPressed();
+    this.shouldStart = false;
+  }
+
+  @Effect
+  stopIfNeeded() {
+    if (!this.shouldStop || !this.loaded) return;
+    if (this.state.runningContext != null) this.runButtonPressed();
+    this.shouldStop = false;
+  }
+
+  @Effect
   updateTabTitle() {
+    if (this.state.isGlobalPage) return;
     this.tab.title = `Page - ${this.page.name}`;
     this.pageData.pageElement.name = `${this.page.name} Page`;
   }
@@ -124,10 +157,17 @@ class PageTabController extends Controller {
       return;
     }
 
-    const runningContext = createRunningContext(this.pageData);
+    const globalRunningContext = createRunningContext(this.globalPageData, this.context);
+    const currentRunningContext = createRunningContext(this.pageData, this.context);
+    const runningContext = scope(currentRunningContext, globalRunningContext);
+
     this.state.runningContext = runningContext;
 
     (window as any).$ = runningContext.$;
+
+    setTimeout(() => {
+      (this.pageData.pageElement.domElement as HTMLElement).dispatchEvent(new CustomEvent('run'));
+    }, 100);
   }
 }
 

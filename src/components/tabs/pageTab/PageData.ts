@@ -11,20 +11,22 @@ interface PageData {
   pageElement: ElementItem;
 }
 
-const getDefaultPageData: (content: any) => PageData = context => {
+const getDefaultPageData: (context: any) => PageData = context => {
   const data = {
     styles: createItem(ItemType.Group, 'Styles') as GroupItem,
     assets: createItem(ItemType.Group, 'Assets') as GroupItem,
     types: createItem(ItemType.Group, 'Types') as GroupItem,
     functions: createItem(ItemType.Group, 'Functions') as GroupItem,
     states: createItem(ItemType.Group, 'States') as GroupItem,
-    pageElement: createElementItem(ElementType.Page, context)
+    pageElement: context == null ? (null as any) : createElementItem(ElementType.Page, context)
   };
 
-  // @ts-ignore
-  data.pageElement.properties.width = 412;
-  // @ts-ignore
-  data.pageElement.properties.height = 915;
+  if (data.pageElement) {
+    // @ts-ignore
+    data.pageElement.properties.width = 412;
+    // @ts-ignore
+    data.pageElement.properties.height = 915;
+  }
 
   return data;
 };

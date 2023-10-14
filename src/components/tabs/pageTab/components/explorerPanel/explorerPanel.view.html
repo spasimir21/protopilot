@@ -12,4 +12,6 @@
 
 <explorer-states />
 
-<explorer-elements />
+<if _="!$.pageTabState.isGlobalPage">
+  <explorer-elements />
+</if>

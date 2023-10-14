@@ -15,13 +15,15 @@
   <explorer-panel />
 
   <div class="preview-container">
-    <div
-      class="play-button"
-      #backgroundColor="$.state.runningContext != null ? 'lime' : 'tomato'"
-      @click="$.runButtonPressed()"
-    ></div>
+    <if _="!$.state.isGlobalPage">
+      <div
+        class="play-button"
+        #backgroundColor="$.state.runningContext != null ? 'lime' : 'tomato'"
+        @click="$.runButtonPressed()"
+      ></div>
 
-    <preview />
+      <preview />
+    </if>
   </div>
 
   <properties-panel />
