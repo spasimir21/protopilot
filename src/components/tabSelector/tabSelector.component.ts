@@ -20,6 +20,14 @@ class TabSelectorController extends Controller {
   globalPageData: PageData = reactive(getDefaultPageData(null));
 
   postInit() {
+    this.tabManager.openTab({
+      title: 'Export',
+      modified: false,
+      canClose: false,
+      data: null,
+      component: { name: 'export-tab' }
+    });
+
     this.tabManager.currentTab = this.tabManager.openTab({
       title: 'Pages',
       modified: false,

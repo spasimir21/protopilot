@@ -1,0 +1,23 @@
+{
+  "name": "$PROJECT_NAME$",
+  "version": "1.0.0",
+  "description": "",
+  "source": "index.html",
+  "scripts": {
+    "serve": "parcel",
+    "build": "parcel build"
+  },
+  "dependencies": {
+    "@uixjs/core": "^0.0.7",
+    "@uixjs/reactivity": "^0.0.6",
+    "@uixjs/router": "^0.0.7"
+  },
+  "devDependencies": {
+    "@uixjs/parcel-transformer-uix-stylesheet": "^0.0.7",
+    "@uixjs/parcel-transformer-uix-view": "^0.0.7",
+    "@parcel/transformer-sass": "^2.9.2",
+    "parcel": "^2.9.2"
+  },
+  "author": "",
+  "license": "ISC"
+}

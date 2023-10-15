@@ -10,6 +10,11 @@ function registerTabComponents(registry: Registry) {
     name: 'page-tab',
     load: () => import('./pageTab/pageTab.component')
   });
+
+  registry.components.register({
+    name: 'export-tab',
+    load: () => import('./exportTab/exportTab.component')
+  });
 }
 
 export { registerTabComponents };

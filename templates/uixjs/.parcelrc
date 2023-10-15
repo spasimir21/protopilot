@@ -1,0 +1,12 @@
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.view.html": [
+      "@uixjs/parcel-transformer-uix-view"
+    ],
+    "uix-stylesheet:*": [
+      "...",
+      "@uixjs/parcel-transformer-uix-stylesheet"
+    ]
+  }
+}

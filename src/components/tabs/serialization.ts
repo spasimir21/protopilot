@@ -36,7 +36,7 @@ function serializeAsset(asset: AssetItem) {
   return [asset.id, asset.name, asset.assetType];
 }
 
-function deserializeAsset(asset: any, project: Project): AssetItem {
+function deserializeAsset(asset: any, project: Project, loadAssets: boolean): AssetItem {
   const assetItem: AssetItem = reactive({
     type: ItemType.Asset,
     id: asset[0],
@@ -45,7 +45,7 @@ function deserializeAsset(asset: any, project: Project): AssetItem {
     url: ''
   });
 
-  loadAsset(project.file(`./assets/${assetItem.id}`), assetItem);
+  if (loadAssets) loadAsset(project.file(`./assets/${assetItem.id}`), assetItem);
 
   return assetItem;
 }
@@ -202,12 +202,12 @@ function createGroupItem(name: string, children: any[]): GroupItem {
   };
 }
 
-function deserializePageData(data: any, project: Project): PageData {
+function deserializePageData(data: any, project: Project, loadAssets = true): PageData {
   return {
     styles: createGroupItem('Styles', data[0].map(deserializeStyle)),
     assets: createGroupItem(
       'Assets',
-      data[1].map((asset: any) => deserializeAsset(asset, project))
+      data[1].map((asset: any) => deserializeAsset(asset, project, loadAssets))
     ),
     types: createGroupItem('Types', data[2].map(deserializeType)),
     functions: createGroupItem('Functions', data[3].map(deserializeFunction)),

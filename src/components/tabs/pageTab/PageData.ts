@@ -1,13 +1,24 @@
-import { GroupItem, ItemType, ElementItem, ElementType, createItem } from './Item';
+import {
+  GroupItem,
+  ItemType,
+  ElementItem,
+  ElementType,
+  createItem,
+  StyleItem,
+  AssetItem,
+  TypeItem,
+  FunctionItem,
+  StateItem
+} from './Item';
 import { createContextValue } from '@uixjs/core';
 import { createElementItem } from './Element';
 
 interface PageData {
-  styles: GroupItem;
-  assets: GroupItem;
-  types: GroupItem;
-  functions: GroupItem;
-  states: GroupItem;
+  styles: GroupItem<StyleItem>;
+  assets: GroupItem<AssetItem>;
+  types: GroupItem<TypeItem>;
+  functions: GroupItem<FunctionItem>;
+  states: GroupItem<StateItem>;
   pageElement: ElementItem;
 }
 
@@ -19,7 +30,7 @@ const getDefaultPageData: (context: any) => PageData = context => {
     functions: createItem(ItemType.Group, 'Functions') as GroupItem,
     states: createItem(ItemType.Group, 'States') as GroupItem,
     pageElement: context == null ? (null as any) : createElementItem(ElementType.Page, context)
-  };
+  } as PageData;
 
   if (data.pageElement) {
     // @ts-ignore

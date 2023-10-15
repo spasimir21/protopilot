@@ -1,0 +1,19 @@
+<!-- prettier-ignore -->
+<insert>
+  import { EXPORTERS } from '../../../export/exporters/exporters';
+</insert>
+
+<link rel="stylesheet" href="./exportTab.style.scss" scoped />
+
+<div class="container">
+  <each _="exporter : EXPORTERS">
+    <div class="line">
+      <img attr:src="$.ICONS[$.exporter.id]" />
+      <a .inactive="!$.exporter.active" @click="$.export($.exporter)">Export</a>
+      <b>${ $.project.name }</b>
+      <p>as a</p>
+      <b>${ $.exporter.name }</b>
+      <p>project</p>
+    </div>
+  </each>
+</div>

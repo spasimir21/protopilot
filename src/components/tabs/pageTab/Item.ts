@@ -69,8 +69,9 @@ interface FunctionItem extends BaseItem {
   code: string;
 }
 
-interface GroupItem extends BaseItem {
+interface GroupItem<T extends Item = Item> extends BaseItem {
   type: ItemType.Group;
+  children: T[];
 }
 
 type Item = GroupItem | TypeItem | ElementItem | StateItem | AssetItem | StyleItem | FunctionItem;

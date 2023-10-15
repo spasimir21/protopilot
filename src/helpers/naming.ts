@@ -16,4 +16,9 @@ function toCamelCase(name: string) {
   return name.charAt(0).toLowerCase() + name.substring(1);
 }
 
-export { toKebabCase, toKebabCaseSimple, toCamelCase };
+function toPascalCase(name: string) {
+  name = name.replace(/\s+/g, '');
+  return name.charAt(0).toUpperCase() + name.substring(1);
+}
+
+export { toKebabCase, toKebabCaseSimple, toCamelCase, toPascalCase };
