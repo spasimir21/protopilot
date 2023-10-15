@@ -1,6 +1,7 @@
+import { Project, getProject } from '../../../../../../root/project';
 import { AssetItem, ItemType } from '../../../../Item';
 import defineComponent from './assetEditor.view.html';
-import { Controller, Prop } from '@uixjs/core';
+import { Controller, Inject, Prop } from '@uixjs/core';
 import _fs from 'fs';
 
 const fs = (window as any).require('fs') as typeof _fs;
@@ -8,6 +9,9 @@ const fs = (window as any).require('fs') as typeof _fs;
 class AssetEditorController extends Controller<{ item: AssetItem }> {
   @Prop
   item: AssetItem;
+
+  @Inject(getProject)
+  project: Project;
 
   onFile(event: InputEvent) {
     if (this.item.type !== ItemType.Asset) return;
@@ -27,7 +31,7 @@ class AssetEditorController extends Controller<{ item: AssetItem }> {
       () => {
         if (!(reader.result instanceof ArrayBuffer)) return;
 
-        fs.writeFile(`./project/assets/${this.item.id}`, Buffer.from(reader.result), () => {});
+        fs.writeFile(this.project.file(`./assets/${this.item.id}`), Buffer.from(reader.result), () => {});
       },
       { once: true }
     );

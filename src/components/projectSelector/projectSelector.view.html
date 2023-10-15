@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="./projectSelector.style.scss" scoped />
+
+<div class="container">
+  <div class="line">
+    <a @click="$.openExistingProject()">Open</a>
+    <p>an existing project</p>
+  </div>
+
+  <div class="line">
+    <a @click="$.createProject()">Create</a>
+    <p>the</p>
+    <input type="text" placeholder="Awesome" :value!="$.projectName" />
+    <p>project</p>
+  </div>
+</div>

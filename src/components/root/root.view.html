@@ -1,3 +1,8 @@
 <link rel="stylesheet" href="./root.style.scss" scoped />
 
-<tab-selector />
+<if _="$.project != null">
+  <tab-selector />
+</if>
+<else>
+  <project-selector prop:openProject="$.openProject" />
+</else>

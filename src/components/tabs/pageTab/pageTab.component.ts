@@ -19,6 +19,7 @@ import { Tab, getTab } from '../../../manager/TabManager';
 import defineComponent from './pageTab.view.html';
 import { StateItem } from './Item';
 import _fs from 'fs';
+import { Project, getProject } from '../../root/project';
 
 const fs = (window as any).require('fs') as typeof _fs;
 
@@ -70,6 +71,9 @@ class PageTabController extends Controller {
   @Inject(getGlobalPageData)
   globalPageData: PageData;
 
+  @Inject(getProject)
+  project: Project;
+
   @Shared
   shouldStart: boolean;
 
@@ -99,20 +103,24 @@ class PageTabController extends Controller {
   }
 
   save() {
-    fs.writeFile(`./project/pages/${this.tab.data}.json`, JSON.stringify(serializePageData(this.pageData)), () => {});
+    fs.writeFile(
+      this.project.file(`./pages/${this.tab.data}.json`),
+      JSON.stringify(serializePageData(this.pageData)),
+      () => {}
+    );
 
     // this.tab.modified = false;
   }
 
   load() {
-    fs.readFile(`./project/pages/${this.tab.data}.json`, (err, data) => {
+    fs.readFile(this.project.file(`./pages/${this.tab.data}.json`), (err, data) => {
       this.loaded = true;
 
       if (err != null) return;
 
       const serializedPageData = JSON.parse(data.toString());
 
-      const pageData = deserializePageData(serializedPageData);
+      const pageData = deserializePageData(serializedPageData, this.project);
 
       this.pageData.styles = pageData.styles;
       this.pageData.assets = pageData.assets;

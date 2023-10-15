@@ -1,3 +1,4 @@
+import { Project, getProject } from '../components/root/project';
 import { Effect, Reactive, State } from '@uixjs/reactivity';
 import { createContextValue } from '@uixjs/core';
 import { id } from '../helpers/id';
@@ -20,8 +21,12 @@ class PageManager {
   @State
   loaded: boolean = false;
 
-  constructor() {
-    fs.readFile('./project/pages.json', (err, data) => {
+  project: Project;
+
+  constructor(private readonly context: any) {
+    this.project = getProject(this.context);
+
+    fs.readFile(this.project.file('./pages.json'), (err, data) => {
       this.loaded = true;
 
       if (err != null) return;
@@ -32,7 +37,7 @@ class PageManager {
   @Effect
   save() {
     if (!this.loaded) return;
-    fs.writeFile('./project/pages.json', JSON.stringify(this.pages), () => {});
+    fs.writeFile(this.project.file('./pages.json'), JSON.stringify(this.pages), () => {});
   }
 
   getPage(id: string) {

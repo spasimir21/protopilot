@@ -1,19 +1,41 @@
 import { PageManager, providePageManager } from '../../manager/PageManager';
-import tabSelectorComponent from '../tabSelector/tabSelector.component';
 import { Controller, Provide } from '@uixjs/core';
-import { Dependency } from '@uixjs/reactivity';
+import { Dependency, Effect, State } from '@uixjs/reactivity';
 import defineComponent from './root.view.html';
+import { Project, loadProject, provideProject } from './project';
+import projectSelectorComponent from '../projectSelector/projectSelector.component';
 
-@Provide(providePageManager, $ => $.pageManager)
 class RootController extends Controller {
-  @Dependency
-  pageManager: PageManager = new PageManager();
+  @State
+  project: Project = null as any;
+
+  init() {
+    this.openProject = this.openProject.bind(this);
+  }
+
+  openProject(path: string): void {
+    loadProject(path).then(project => {
+      this.project = project;
+      provideProject(this.context, this.project);
+    });
+  }
+
+  @Effect
+  updateTitle() {
+    document.title = this.project ? `ProtoPilot - ${this.project.name}` : 'ProtoPilot';
+  }
 }
 
 const rootComponent = defineComponent({
   name: 'root',
   controller: RootController,
-  dependencies: [tabSelectorComponent]
+  dependencies: [
+    projectSelectorComponent,
+    {
+      name: 'tab-selector',
+      load: () => import('../tabSelector/tabSelector.component')
+    }
+  ]
 });
 
 export default rootComponent;

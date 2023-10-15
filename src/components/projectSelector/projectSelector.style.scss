@@ -1,0 +1,49 @@
+[project-selector] {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+p {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.container {
+  display: flex;
+  align-items: start;
+  align-content: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+  gap: 30px;
+}
+
+.line {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 10px;
+  align-items: center;
+}
+
+a {
+  user-select: none;
+  width: fit-content;
+  font-size: 24px;
+  padding: 5px 10px;
+  background-color: lightgray;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+input {
+  font-size: 22px;
+  padding: 5px 10px;
+  width: 200px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  outline: none;
+}

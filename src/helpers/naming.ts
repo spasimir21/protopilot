@@ -7,9 +7,13 @@ function toKebabCase(name: string) {
     .join('-');
 }
 
+function toKebabCaseSimple(name: string) {
+  return name.trim().toLowerCase().replace(/\s+/g, '-');
+}
+
 function toCamelCase(name: string) {
   name = name.replace(/\s+/g, '');
   return name.charAt(0).toLowerCase() + name.substring(1);
 }
 
-export { toKebabCase, toCamelCase };
+export { toKebabCase, toKebabCaseSimple, toCamelCase };

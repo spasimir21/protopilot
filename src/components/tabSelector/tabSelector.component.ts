@@ -1,16 +1,21 @@
 import { Tab, TabManager, provideTabManager } from '../../manager/TabManager';
+import { PageManager, providePageManager } from '../../manager/PageManager';
+import { PageData, getDefaultPageData } from '../tabs/pageTab/PageData';
 import { Controller, Provide, createContextValue } from '@uixjs/core';
 import { Dependency, reactive } from '@uixjs/reactivity';
 import defineComponent from './tabSelector.view.html';
-import { PageData, getDefaultPageData } from '../tabs/pageTab/PageData';
 
 const [provideGlobalPageData, getGlobalPageData] = createContextValue<PageData>('globalPageData');
 
 @Provide(provideGlobalPageData, $ => $.globalPageData)
+@Provide(providePageManager, $ => $.pageManager)
 @Provide(provideTabManager, $ => $.tabManager)
 class TabSelectorController extends Controller {
   @Dependency<TabSelectorController>($ => new TabManager($.context, $.component.registry))
   tabManager: TabManager;
+
+  @Dependency<TabSelectorController>($ => new PageManager($.context))
+  pageManager: PageManager;
 
   globalPageData: PageData = reactive(getDefaultPageData(null));
 

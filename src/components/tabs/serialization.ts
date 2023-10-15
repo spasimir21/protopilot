@@ -13,6 +13,7 @@ import {
   StyleItem,
   TypeItem
 } from './pageTab/Item';
+import { Project } from '../root/project';
 
 function unwrap(object: any) {
   return JSON.parse(JSON.stringify(object));
@@ -35,7 +36,7 @@ function serializeAsset(asset: AssetItem) {
   return [asset.id, asset.name, asset.assetType];
 }
 
-function deserializeAsset(asset: any): AssetItem {
+function deserializeAsset(asset: any, project: Project): AssetItem {
   const assetItem: AssetItem = reactive({
     type: ItemType.Asset,
     id: asset[0],
@@ -44,7 +45,7 @@ function deserializeAsset(asset: any): AssetItem {
     url: ''
   });
 
-  loadAsset(`./project/assets/${assetItem.id}`, assetItem);
+  loadAsset(project.file(`./assets/${assetItem.id}`), assetItem);
 
   return assetItem;
 }
@@ -201,10 +202,13 @@ function createGroupItem(name: string, children: any[]): GroupItem {
   };
 }
 
-function deserializePageData(data: any): PageData {
+function deserializePageData(data: any, project: Project): PageData {
   return {
     styles: createGroupItem('Styles', data[0].map(deserializeStyle)),
-    assets: createGroupItem('Assets', data[1].map(deserializeAsset)),
+    assets: createGroupItem(
+      'Assets',
+      data[1].map((asset: any) => deserializeAsset(asset, project))
+    ),
     types: createGroupItem('Types', data[2].map(deserializeType)),
     functions: createGroupItem('Functions', data[3].map(deserializeFunction)),
     states: createGroupItem('States', data[4].map(deserializeState)),
