@@ -53,7 +53,7 @@ function exportElement(
       attributes['type'] = element.properties?.type;
       break;
     case ElementType.Each:
-      attributes['_'] = `${element.properties?.item} : ${element.properties?.array}`;
+      attributes['_'] = `${element.properties?.item} : ${alterFunctionCode(element.properties?.array)}`;
       break;
   }
 
@@ -65,11 +65,11 @@ function exportElement(
         attributes[`@${modifier.event}`] = `$.${toCamelCase(modifier.function)}($)`;
         break;
       case 'Input':
-        attributes[`:${modifier.input}!`] = modifier.value;
+        attributes[`:${modifier.input}!`] = alterFunctionCode(modifier.value);
         break;
       case 'Style':
         attributes[`#${modifier.property.replace(/\-(.)/g, (_: string, char: string) => char.toUpperCase())}`] =
-          modifier.value;
+          alterFunctionCode(modifier.value);
         break;
     }
   }
