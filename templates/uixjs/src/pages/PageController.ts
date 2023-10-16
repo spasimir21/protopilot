@@ -9,7 +9,13 @@ class PageController extends Controller {
   @Inject(getGlobalState)
   globalState: GlobalState;
 
+  page: HTMLDivElement;
+
 $GLOBAL_STATE$
+
+  override onFirstMount() {
+    this.page.dispatchEvent(new CustomEvent('run'));
+  }
 
 $GLOBAL_FUNCTIONS$
 

@@ -21,13 +21,7 @@ import { State } from '@uixjs/reactivity';
 ${page.data.types.children.map(exportTypeDefinition).join('\n\n')}
   
 class ${componentNamePascalCase}Controller extends PageController {
-  page: HTMLDivElement;
-
 ${indentCode(page.data.states.children.map(exportState).join('\n\n'), 1)}
-
-  override onFirstMount() {
-    this.page.dispatchEvent(new CustomEvent('run'));
-  }
 
 ${indentCode(page.data.functions.children.map(exportFunction).join('\n\n'), 1)}
 }
