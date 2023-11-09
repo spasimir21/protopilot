@@ -17,6 +17,10 @@ class ProjectSelectorController extends Controller<{ openProject: (path: string)
   @State
   projectName: string = '';
 
+  // afterViewInit(): void {
+  //   this.openProject('./projects/foody-project');
+  // }
+
   async openExistingProject() {
     const [directory] = (await dialog({ type: 'directory' })) as string[];
     this.openProject(directory);

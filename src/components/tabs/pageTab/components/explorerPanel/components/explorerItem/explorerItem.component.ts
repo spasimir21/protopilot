@@ -1,9 +1,20 @@
 import { PageTabState, getPageTabState } from '../../../../PageTabState';
 import { measureText } from '../../../../../../../helpers/measureText';
+import { ElementItem, Item, ItemType } from '../../../../Item';
+import { PageData, getPageData } from '../../../../PageData';
 import { Controller, Inject, Prop } from '@uixjs/core';
 import defineComponent from './explorerItem.view.html';
 import { Computed, State } from '@uixjs/reactivity';
-import { Item } from '../../../../Item';
+
+function findParentItem(elementItem: ElementItem, itemId: string): ElementItem | null {
+  for (const child of elementItem.children ?? []) {
+    if (child.id === itemId) return elementItem;
+    const foundItem = findParentItem(child, itemId);
+    if (foundItem != null) return foundItem;
+  }
+
+  return null;
+}
 
 class ExplorerItemController extends Controller<{
   item: Item;
@@ -21,6 +32,9 @@ class ExplorerItemController extends Controller<{
 
   @State
   areChildrenCollapsed: boolean = false;
+
+  @Inject(getPageData)
+  pageData: PageData;
 
   @Inject(getPageTabState)
   pageTabState: PageTabState;
@@ -46,6 +60,32 @@ class ExplorerItemController extends Controller<{
   get canBeSelected() {
     if (this.props.canBeSelected == null) return true;
     return this.props.canBeSelected(this.item, this.parent);
+  }
+
+  shouldAllowDrop() {
+    return this.item.type === ItemType.Element;
+  }
+
+  onDrop(itemId: string) {
+    if (this.item.id === itemId) return;
+
+    const parentItem = findParentItem(this.pageData.pageElement, itemId);
+    if (parentItem == null) return;
+
+    const parentChildren = parentItem.children ?? [];
+
+    const index = parentChildren.findIndex(child => child.id === itemId);
+
+    const item = parentChildren[index];
+    if (findParentItem(item, this.item.id) != null) return;
+
+    parentChildren.splice(index, 1);
+
+    (this.item.children ?? []).unshift(item);
+  }
+
+  afterViewInit(): void {
+    if (this.item.type === ItemType.Element) this.component.setAttribute('draggable', 'true');
   }
 
   select() {

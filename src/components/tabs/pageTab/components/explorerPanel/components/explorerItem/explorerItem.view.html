@@ -1,5 +1,12 @@
 <link rel="stylesheet" href="./explorerItem.style.scss" scoped />
 
+<!-- prettier-ignore -->
+<component
+  @dragstart:stopPropagation="e.dataTransfer.setData('item', $.item.id)"
+  @drop:stopPropagation="$.onDrop(e.dataTransfer.getData('item'))"
+  @dragover:stopPropagation="$.shouldAllowDrop() && e.preventDefault()"
+/>
+
 <div
   class="header"
   .current="$.pageTabState.currentItem === $.item"
